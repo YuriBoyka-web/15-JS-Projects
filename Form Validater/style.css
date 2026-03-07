@@ -57,6 +57,7 @@ input:focus
 }
 small
 {
+    visibility: hidden;
     position: absolute;
     bottom: -19px;
     left: 0;
