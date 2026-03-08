@@ -13,22 +13,29 @@ form.addEventListener("submit",(e)=>{
     if(isRequired)
     {
         const isUsernameValid = checkLength(Username,4,10);
-        const isEmailValid = checkLength(email)
-        const isPhoneNumberValid = checkLength(PhoneNumber,11);
+        const isEmailValid = checkEmail(Email);
+        const isPhoneNumberValid = checkPhone(PhoneNumber);
         const isPasswordValid = checkLength(Password,6,14);
-        const isPasswordsMatch = checkLength(Password,ConfirmPassword);
+        const isPasswordsMatch = checkPassword(Password,ConfirmPassword);
+        isFormValid = isUsernameValid && isEmailValid && isPhoneNumberValid && isPasswordValid && isPasswordsMatch;
+    }
+    if(isFormValid)
+    {
+        alert("Registration Successfull")
+        form.reset();
+        document.querySelectorAll(".form-group").forEach((group) => group.className = "form-group"  )
     }
 });
 function checkLength(input,min,max)
 {
     if(input.value.length < min)
     {
-        showError(input, `${formatFieldName(input)}must be at least ${min} characters.`)
+        showError(input, `${formatFieldName(input)} must be at least ${min} characters.`)
         return false;
     }
-    else if(input.value.length < max)
+    else if(input.value.length > max)
     {
-        showError(input, `${formatFieldName(input)}must be less than ${max} characters.`)
+        showError(input, `${formatFieldName(input)} must be less than ${max} characters.`)
         return false;
     }
     else
@@ -37,8 +44,40 @@ function checkLength(input,min,max)
         return true;
     }
 }
+function checkEmail(email)
+{
+const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if(emailReg.test(email.value.trim()))
+{
+    showSuccess(email)
+    return true;
+}
+else
+{
+    showError(email,"Email is not valid");
+    return false;
+}
+}
+function checkPhone(phone) {
+const phoneRegex = /^(\+92|0)?3[0-9]{9}$/;
 
-
+  if (phoneRegex.test(phone.value.trim())) {
+    showSuccess(phone);
+    return true;
+  } else {
+    showError(phone, "Phone number is not valid");
+    return false;
+  }
+}
+function checkPassword(input1,input2)
+{
+    if(input1.value !== input2.value)
+    {
+        showError(input2,"Password Doesnt Match")
+        return false;
+    }
+    return true;
+}
 function checkRequired(inputArray)
 {
    let isValid = true;
@@ -46,7 +85,7 @@ function checkRequired(inputArray)
     //!  Fill the Values inside the fields
     if(input.value.trim() === "")
     {
-        showError(input, `${formFieldName (input)} is required`)
+        showError(input, `${formatFieldName(input)} is required`)
         isValid = false;
     }
     else
@@ -58,16 +97,15 @@ function checkRequired(inputArray)
 }
 function formatFieldName(input)
 {
-    return input.id.charAt(0).touUpperCase() +input.id.slice(1);
+    return input.id.charAt(0).toUpperCase() +input.id.slice(1);
 }
-function showError(input, message)
-{
-    const formGroup = input.parentElement;
-    formGroup.className = "form-group error";
-    const small =  formGroup.querySelector("small");
-    small.innerText =  message;
+function showError(input, message) {
+  const formGroup = input.parentElement;
+  formGroup.className = "form-group error";
+  const small = formGroup.querySelector("small");
+  small.innerText = message;
 }
-function showSuccess()
+function showSuccess(input)
 {
      const formGroup = input.parentElement;
     formGroup.className = "form-group success";

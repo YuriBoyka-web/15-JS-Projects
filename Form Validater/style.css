@@ -13,15 +13,14 @@ body
     align-items: center;
     min-height: 100vh;
 }
-.container
-{
-    background-color: rgb(234, 233, 233);
-    border-radius: 8px;
-    box-shadow: 0px 5px 15px rgb(0, 0,0),0.1;
-    width: 100%;
-    max-width: 768px;
-    padding: 30px;
-    overflow: hidden;
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  overflow: hidden;
 }
 .container h1
 {
@@ -55,13 +54,16 @@ input:focus
     outline: none;
     border-color: #3498db;
 }
-small
+small {
+  visibility: hidden;
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  font-size: 12px;
+}
+.form-group.error small
 {
-    visibility: hidden;
-    position: absolute;
-    bottom: -19px;
-    left: 0;
-    font-size: 13px;
+    visibility: visible;
     color: red;
 }
 button
